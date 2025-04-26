@@ -1,0 +1,28 @@
+name: Makefile CI
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: make
+      run: make V=1
+
+    - name: Package
+      run: cd output && tar zcf images.tar.gz images/
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        token: ${{ secrets.TOKEN_FOR_TEST }}
+        name: ${{ github.ref }}
+        files: ./output/images.tar.gz
+        draft: false
