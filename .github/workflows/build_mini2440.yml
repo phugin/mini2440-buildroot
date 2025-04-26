@@ -1,4 +1,4 @@
-name: Makefile CI
+name: 编译mini2440
 
 on:
   push:
